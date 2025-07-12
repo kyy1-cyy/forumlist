@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Forum Gameslist</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Forum Gameslist</h1>
+        <p>Powered by Discord & Netlify</p>
+        <a href="https://discord.gg/j92rPV6FE4" target="_blank" rel="noopener noreferrer" class="discord-logo-link" title="Join our Discord">
+    Discord
+</a>        <div class="search-container">
+            <input type="text" id="search-bar" placeholder="Search for a game by title...">
+        </div>
+    </header>
+    <main id="posts-container" class="container">
+        <!-- Forum posts will be loaded here as game cards -->
+        <div class="loading">Loading<br>[around 10s to load<span class="loading-dots"></span>]</div>
+    </main>
+    <script src="script.js"></script>
+
+    <!-- Modal for displaying full post details -->
+    <div id="modal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2 id="modal-title"></h2>
+            <p id="modal-description"></p>
+            <div id="modal-date" class="date"></div>
+        </div>
+    </div>
+</body>
+</html>
