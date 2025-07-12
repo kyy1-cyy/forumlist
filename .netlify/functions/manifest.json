@@ -1,0 +1,1 @@
+{"functions":[{"bundler":"zisi","buildData":{"runtimeAPIVersion":1},"mainFile":"/Users/mac/Documents/vss code/netlify/functions/fetch-posts.js","name":"fetch-posts","priority":10,"runtimeVersion":"nodejs18.x","path":"/Users/mac/Documents/vss code/.netlify/functions/fetch-posts.zip","runtime":"js"}],"system":{"arch":"x64","platform":"darwin"},"timestamp":1752340194293,"version":1}

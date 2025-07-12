@@ -1,0 +1,21 @@
+{
+	"geolocation": {
+		"data": {
+			"city": "Melbourne",
+			"country": {
+				"code": "AU",
+				"name": "Australia"
+			},
+			"subdivision": {
+				"code": "VIC",
+				"name": "Victoria"
+			},
+			"timezone": "Australia/Melbourne",
+			"latitude": -37.8159,
+			"longitude": 144.9669,
+			"postalCode": "3000"
+		},
+		"timestamp": 1752337718182
+	},
+	"siteId": "3a7fb4ad-0b3f-4079-b6ac-e1d59d3ba40e"
+}

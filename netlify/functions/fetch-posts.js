@@ -1,84 +1,109 @@
 const { Client, GatewayIntentBits, ChannelType } = require('discord.js');
 
 exports.handler = async (event, context) => {
-  // These values MUST be set in your Netlify site's environment variables.
+  console.log('Function starting...');
+
   const botToken = process.env.DISCORD_BOT_TOKEN;
   const channelId = process.env.DISCORD_CHANNEL_ID;
+
+  if (!botToken || !channelId) {
+    const errorMessage = 'CRITICAL ERROR: DISCORD_BOT_TOKEN or DISCORD_CHANNEL_ID is not set in Netlify environment variables.';
+    console.error(errorMessage);
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: errorMessage }),
+    };
+  }
 
   const client = new Client({
     intents: [
       GatewayIntentBits.Guilds,
       GatewayIntentBits.GuildMessages,
-      GatewayIntentBits.MessageContent,
     ],
   });
 
   try {
-    // A promise to ensure the bot is logged in and ready
-    await new Promise((resolve, reject) => {
-      client.once('ready', () => {
-        console.log(`Logged in as ${client.user.tag}!`);
-        resolve();
-      });
-      client.login(botToken).catch(reject);
-    });
+    console.log('Attempting to log in to Discord...');
+    await client.login(botToken);
+    console.log(`Login successful as ${client.user.tag}.`);
 
+    console.log(`Fetching channel with ID: ${channelId}...`);
     const channel = await client.channels.fetch(channelId);
+    console.log('Channel fetched.');
 
-    if (!channel || channel.type !== ChannelType.GuildForum) {
-      client.destroy();
-      return {
-        statusCode: 404,
-        body: JSON.stringify({ error: 'Channel not found or is not a forum channel.' }),
-      };
+    if (!channel) {
+      throw new Error(`Channel with ID ${channelId} could not be found.`);
     }
 
-    // Fetch all threads, handling pagination for archived threads to get everything
-    const activeThreads = await channel.threads.fetchActive();
-    let allThreads = [...activeThreads.threads.values()];
+    if (channel.type !== ChannelType.GuildForum) {
+      throw new Error(`Channel "${channel.name}" (ID: ${channelId}) is not a Forum Channel.`);
+    }
 
-    let lastThread = allThreads.length > 0 ? allThreads[allThreads.length - 1] : null;
-    let moreToFetch = true;
-    while(moreToFetch) {
-        const archivedThreads = await channel.threads.fetchArchived({ before: lastThread ? lastThread.id : null, limit: 100 });
-        if (archivedThreads.threads.size > 0) {
-            allThreads.push(...archivedThreads.threads.values());
-            lastThread = archivedThreads.threads.last();
-        } else {
-            moreToFetch = false;
+    console.log('Fetching active threads...');
+    const threads = await channel.threads.fetch({ active: true });
+    console.log(`Found ${threads.threads.size} active threads.`);
+
+    const posts = threads.threads.map(thread => ({
+        id: thread.id,
+        name: thread.name,
+        messageCount: thread.messageCount,
+        createdAt: thread.createdAt,
+        owner: thread.ownerId,
+        messages: []
+    }));
+
+    console.log('Fetching messages for each thread...');
+    for (const post of posts) {
+        const thread = threads.threads.get(post.id);
+        if (thread) {
+            const messages = await thread.messages.fetch({ limit: 100 });
+            post.messages = messages.map(msg => ({
+                id: msg.id,
+                content: msg.content,
+                author: {
+                    id: msg.author.id,
+                    username: msg.author.username,
+                    avatar: msg.author.displayAvatarURL(),
+                },
+                createdAt: msg.createdAt,
+                attachments: msg.attachments.map(a => a.url)
+            }));
         }
     }
+    console.log('Message fetching complete.');
 
-    const posts = await Promise.all(
-      allThreads.map(async (thread) => {
-        // Fetch the very first message to get the post's content
-        const starterMessage = await thread.fetchStarterMessage().catch(() => null);
-        return {
-          id: thread.id,
-          title: thread.name,
-          description: starterMessage ? starterMessage.content : 'No description available.',
-          createdAt: thread.createdAt,
-        };
-      })
-    );
-
-    // Sort posts by creation date, newest first
-    posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-
-    // Disconnect the bot
-    client.destroy();
+    await client.destroy();
+    console.log('Client destroyed. Function finished successfully.');
 
     return {
-      statusCode: 200,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(posts),
+        statusCode: 200,
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(posts)
     };
   } catch (error) {
-    console.error('Error fetching Discord posts:', error);
-    client.destroy();
+    console.error('--- FUNCTION FAILED ---');
+    console.error('The following error occurred:');
+    console.error(error);
+    console.error('--- END OF ERROR ---');
+    
+    if (client && client.isReady()) {
+        await client.destroy();
+        console.log('Client was ready and has been destroyed.');
+    }
+
     return {
-      statusCode: 500,
-      body: JSON.stringify({ error: 'Failed to fetch posts from Discord.', details: error.message }),
+        statusCode: 500,
+        headers: {
+            'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify({ 
+            message: 'An internal server error occurred.', 
+            error: error.message, 
+            code: error.code 
+        })
     };
   }
 };

@@ -1,0 +1,28 @@
+functionsDirectory = "/Users/mac/Documents/vss code/netlify/functions"
+functionsDirectoryOrigin = "config"
+plugins = []
+headers = []
+redirects = []
+
+[build]
+publish = "/Users/mac/Documents/vss code"
+publishOrigin = "default"
+functions = "/Users/mac/Documents/vss code/netlify/functions"
+
+[build.environment]
+
+[build.processing]
+
+[build.processing.css]
+
+[build.processing.html]
+
+[build.processing.images]
+
+[build.processing.js]
+
+[build.services]
+
+[functions]
+
+[functions."*"]
