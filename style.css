@@ -6,6 +6,9 @@ body {
     margin: 0;
     padding: 0;
     line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Full viewport height */
 }
 
 .container {
@@ -20,7 +23,10 @@ header {
     padding: 20px;
     text-align: center;
     border-bottom: 1px solid #333;
-    position: relative; /* Needed for absolute positioning of the logo */
+    position: sticky; /* Make header sticky */
+    top: 0;
+    z-index: 100; /* Ensure it's above other content */
+    flex-shrink: 0; /* Prevent header from shrinking */
 }
 
 header h1 {
@@ -58,11 +64,16 @@ header p {
 }
 
 /* Posts Container */
+main#posts-container {
+    flex-grow: 1; /* Allow main to grow and fill available space */
+    overflow-y: auto; /* **CRITICAL: Make only this section scrollable** */
+    padding-top: 20px;
+}
+
 #posts-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
-    padding-top: 20px;
 }
 
 /* Game Card Styles */
