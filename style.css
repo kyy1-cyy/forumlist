@@ -258,30 +258,30 @@ header p {
     }
 
     .card {
-        padding: 8px; /* Further reduce padding */
+        padding: 10px;
         display: flex;
         flex-direction: column;
-        justify-content: space-between; /* Helps align content */
     }
 
     .card h2 {
-        font-size: 0.85em; /* Much smaller titles for mobile */
-        margin: 0 0 5px 0; /* Remove extra spacing */
+        font-size: 1em; /* Readable title size */
+        margin: 0 0 8px 0;
         padding: 0;
-        border-bottom: none; /* Remove border to save space */
+        border-bottom: 1px solid #444;
+        padding-bottom: 8px;
     }
 
     .card p {
-        font-size: 0.75em; /* Much smaller description text */
-        -webkit-line-clamp: 4; /* Adjust lines shown */
-        line-clamp: 4;
-        line-height: 1.4;
+        font-size: 0.9em; /* Readable description size */
+        -webkit-line-clamp: 5; /* Allow more lines */
+        line-clamp: 5;
+        line-height: 1.5;
         margin: 0;
     }
 
     .card .date {
-        font-size: 0.6em; /* Scale down the date */
-        margin-top: 5px;
+        font-size: 0.75em; /* Readable date size */
+        margin-top: 8px;
     }
 
     .modal-content {
