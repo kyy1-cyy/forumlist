@@ -237,6 +237,19 @@ header p {
 
     header {
         padding: 20px 0;
+        text-align: center; /* Center align header content on mobile */
+    }
+
+    .discord-logo-link {
+        position: static; /* **CRITICAL: Remove absolute positioning** */
+        transform: none; /* Reset transform */
+        display: block; /* Make it a block element to take its own line */
+        margin: 15px auto; /* Add space above and below, and center it */
+        width: fit-content; /* Size to content */
+    }
+
+    .discord-logo-link:hover {
+        transform: scale(1.05); /* Keep a simple hover effect */
     }
 
     #posts-container {
