@@ -227,8 +227,12 @@ header p {
 
 /* Mobile Responsive Styles */
 @media (max-width: 768px) {
+    body {
+        padding-bottom: 80px; /* Add space at the bottom of the whole page */
+    }
+
     .container {
-        padding: 0 12px 80px 12px; /* Side and bottom padding */
+        padding: 0 12px;
     }
 
     header {
@@ -267,6 +271,10 @@ header p {
         margin: 0 0 8px 0;
         overflow: hidden; /* Hide overflowing description */
         flex-grow: 1; /* Allow p to take up available space within fixed height */
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 5; /* Limit to 5 lines before adding '...' */
+        line-clamp: 5;
     }
 
     .card .date {
