@@ -228,74 +228,52 @@ header p {
 /* Mobile Responsive Styles */
 @media (max-width: 768px) {
     .container {
-        padding: 15px;
+        padding: 0 12px 80px 12px; /* Side and bottom padding */
     }
 
     header {
-        padding: 15px 0;
-    }
-
-    header h1 {
-        font-size: 2.2em;
-    }
-
-    #search-bar {
-        width: 90%;
-        font-size: 1em;
-    }
-
-    .discord-logo-link {
-        position: static;
-        transform: none;
-        display: inline-block;
-        margin-top: 15px;
-        padding: 10px 15px;
-    }
-
-    .discord-logo-link:hover {
-        transform: scale(1.05);
+        padding: 20px 0;
     }
 
     #posts-container {
-        display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 15px;
+        gap: 12px;
     }
 
     .card {
         background-color: #1e1e1e;
-        border: 1px solid #333;
         border-radius: 8px;
         padding: 12px;
+        height: 190px; /* **CRITICAL: Fixed height for cards** */
         display: flex;
         flex-direction: column;
-        justify-content: space-between; /* Ensures date is at the bottom */
-        min-height: 150px; /* Gives cards a consistent minimum size */
+        overflow: hidden; /* **CRITICAL: Hide overflowing text** */
     }
 
     .card h2 {
         font-size: 1em;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         margin: 0 0 8px 0;
-        padding: 0;
-        border: 0;
+        flex-shrink: 0; /* Prevent shrinking */
     }
 
     .card p {
         font-size: 0.85em;
-        flex-grow: 1; /* Allows this to fill available space */
+        line-height: 1.4;
+        color: #c0c0c0;
         margin: 0 0 8px 0;
-        -webkit-line-clamp: 4;
-        line-clamp: 4;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
+        overflow: hidden; /* Hide overflowing description */
+        flex-grow: 1; /* Allow p to take up available space within fixed height */
     }
 
     .card .date {
         font-size: 0.75em;
         color: #888;
         text-align: right;
+        flex-shrink: 0; /* Prevent shrinking */
     }
 
     .modal-content {
@@ -306,10 +284,5 @@ header p {
     .close-button {
         top: 10px;
         right: 15px;
-    }
-    
-    /* Add padding to the bottom to prevent overlap with footer */
-    .container {
-        padding-bottom: 80px; 
     }
 }
