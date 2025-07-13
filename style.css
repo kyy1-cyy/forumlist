@@ -253,8 +253,22 @@ header p {
     }
 
     #posts-container {
-        grid-template-columns: 1fr; /* Single column for cards */
-        gap: 15px;
+        grid-template-columns: repeat(3, 1fr); /* 3 columns for cards on mobile */
+        gap: 10px;
+    }
+
+    .card {
+        padding: 10px; /* Reduce padding to fit more content */
+    }
+
+    .card h2 {
+        font-size: 1.1em; /* Smaller titles for mobile */
+    }
+
+    .card p {
+        font-size: 0.9em; /* Smaller description text */
+        -webkit-line-clamp: 3; /* Show fewer lines */
+        line-clamp: 3;
     }
 
     .modal-content {
