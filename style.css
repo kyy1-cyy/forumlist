@@ -64,6 +64,24 @@ nav button:hover {
     padding-top: 40px;
 }
 
+/* Discord Button Style */
+.discord-btn {
+    display: inline-block;
+    margin-top: 20px;
+    background-color: #5865F2; /* Discord blurple */
+    color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.discord-btn:hover {
+    background-color: #4752C4;
+}
+
+
 /* Search Bar Styles */
 .search-container {
     max-width: 600px;
