@@ -1,23 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const changeUrlBtn = document.getElementById('change-url-btn');
-    if(changeUrlBtn) {
-        changeUrlBtn.onclick = () => {
-            const newUrl = prompt('Enter the new Rookie Base URL:');
-            if (newUrl) {
-                localStorage.setItem('rookieBaseUrl', newUrl);
-                rookieBaseUrl = newUrl;
-                alert('Base URL updated successfully!');
-            } else {
-                alert('URL update cancelled.');
-            }
-        };
-    }
+    const BASE_URL = 'https://go.vrpyourself.online/';
+    const EXTRACTION_PASSWORD = 'gL59VfgPxoHR';
 
     const homePage = document.getElementById('home-page');
     const gamesListPage = document.getElementById('games-list-page');
     const helpPage = document.getElementById('help-page');
     const postsContainer = document.getElementById('posts-container');
-let rookieBaseUrl = localStorage.getItem('rookieBaseUrl');
 
 /**
  * md5.js
@@ -160,9 +148,12 @@ var md5 = (function(){
     const searchBar = document.getElementById('search-bar');
     const modal = document.getElementById('modal');
     const modalTitle = document.getElementById('modal-title');
-    const modalDescription = document.getElementById('modal-description');
-    const modalDate = document.getElementById('modal-date');
+    const modalDetails = document.getElementById('modal-details');
+    const modalRcloneCommand = document.getElementById('modal-rclone-command');
+    const modalPassword = document.getElementById('modal-password');
     const modalClose = document.querySelector('.close-button');
+    const copyCommandBtn = document.getElementById('copy-command-btn');
+    const copyPasswordBtn = document.getElementById('copy-password-btn');
 
     const homeButton = document.querySelector('header h1');
     const gamesListButton = document.getElementById('nav-games-list');
@@ -190,46 +181,24 @@ var md5 = (function(){
         content.className = 'post-content';
         // Create a description from other game data
         content.textContent = `${game.releaseName}\nSize: ${game.sizeMB} MB`;
+        card.style.backgroundImage = `url('https://www.quest-vr-reviews.com/wp-content/uploads/2021/11/placeholder-1.jpg')`;
         card.appendChild(content);
 
-        const downloadButton = document.createElement('button');
-        downloadButton.textContent = 'Download';
-        downloadButton.className = 'download-btn';
-        downloadButton.onclick = () => {
-            
-
-            if (!rookieBaseUrl) {
-                rookieBaseUrl = prompt('Please enter the Rookie Base URL for downloads (e.g., https://example.com):');
-                if (rookieBaseUrl) {
-                    localStorage.setItem('rookieBaseUrl', rookieBaseUrl);
-                } else {
-                    alert('Download cancelled. A Base URL is required.');
-                    return;
-                }
-            }
-
+        card.addEventListener('click', () => {
             const releaseNameWithNewLine = game.releaseName + '\n';
             const gameHash = md5(releaseNameWithNewLine);
-            const downloadUrl = `${rookieBaseUrl}/${gameHash}/`;
-            
-            console.log(`Constructed URL: ${downloadUrl}`);
-            window.open(downloadUrl, '_blank');
-        };
-        card.appendChild(downloadButton);
+            const rcloneCommand = `rclone copy --http-url "${BASE_URL}" ":http:${gameHash}/" "./${game.releaseName}/" --progress`;
 
-        // Stop propagation to prevent modal from opening when download button is clicked
-        downloadButton.addEventListener('click', (e) => {
-            e.stopPropagation();
-        });
-
-        card.addEventListener('click', () => {
-            // Populate the modal with game details without overwriting the close button
             modalTitle.textContent = game.name;
-            modalDescription.innerHTML = `<p><strong>Release:</strong> ${game.releaseName}</p>
-                                          <p><strong>Package:</strong> ${game.packageName}</p>
-                                          <p><strong>Size:</strong> ${game.sizeMB} MB</p>
-                                          <p><strong>Rating:</strong> ${game.rating}% (${game.ratingCount} ratings)</p>`;
-            modalDate.textContent = `Last Updated: ${game.lastUpdated}`;
+            modalDetails.innerHTML = `<p><strong>Release:</strong> ${game.releaseName}</p>
+                                      <p><strong>Package:</strong> ${game.packageName}</p>
+                                      <p><strong>Size:</strong> ${game.sizeMB} MB</p>
+                                      <p><strong>Rating:</strong> ${game.rating}% (${game.ratingCount} ratings)</p>
+                                      <p><strong>Last Updated:</strong> ${game.lastUpdated}</p>`;
+            
+            modalRcloneCommand.textContent = rcloneCommand;
+            modalPassword.textContent = EXTRACTION_PASSWORD;
+
             modal.style.display = 'block';
         });
 
@@ -296,6 +265,24 @@ var md5 = (function(){
     if (modalClose) {
         modalClose.addEventListener('click', () => {
             modal.style.display = 'none';
+        });
+    }
+
+    if (copyCommandBtn) {
+        copyCommandBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(modalRcloneCommand.textContent).then(() => {
+                copyCommandBtn.textContent = 'Copied!';
+                setTimeout(() => { copyCommandBtn.textContent = 'Copy'; }, 2000);
+            });
+        });
+    }
+
+    if (copyPasswordBtn) {
+        copyPasswordBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(modalPassword.textContent).then(() => {
+                copyPasswordBtn.textContent = 'Copied!';
+                setTimeout(() => { copyPasswordBtn.textContent = 'Copy'; }, 2000);
+            });
         });
     }
 
