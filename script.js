@@ -1,9 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const changeUrlBtn = document.getElementById('change-url-btn');
+    if(changeUrlBtn) {
+        changeUrlBtn.onclick = () => {
+            const newUrl = prompt('Enter the new Rookie Base URL:');
+            if (newUrl) {
+                localStorage.setItem('rookieBaseUrl', newUrl);
+                rookieBaseUrl = newUrl;
+                alert('Base URL updated successfully!');
+            } else {
+                alert('URL update cancelled.');
+            }
+        };
+    }
+
     const homePage = document.getElementById('home-page');
     const gamesListPage = document.getElementById('games-list-page');
     const helpPage = document.getElementById('help-page');
     const postsContainer = document.getElementById('posts-container');
-const rookieBaseUrl = 'https://skrazzle.glomtom.cyou';
+let rookieBaseUrl = localStorage.getItem('rookieBaseUrl');
 
 /**
  * md5.js
@@ -183,6 +197,16 @@ var md5 = (function(){
         downloadButton.className = 'download-btn';
         downloadButton.onclick = () => {
             
+
+            if (!rookieBaseUrl) {
+                rookieBaseUrl = prompt('Please enter the Rookie Base URL for downloads (e.g., https://example.com):');
+                if (rookieBaseUrl) {
+                    localStorage.setItem('rookieBaseUrl', rookieBaseUrl);
+                } else {
+                    alert('Download cancelled. A Base URL is required.');
+                    return;
+                }
+            }
 
             const releaseNameWithNewLine = game.releaseName + '\n';
             const gameHash = md5(releaseNameWithNewLine);
