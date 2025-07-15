@@ -42,9 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const image = document.createElement('img');
         image.src = imageUrl;
-        image.alt = game.name; // for accessibility
+        image.alt = game.name;
         image.onerror = () => { 
-            image.src = placeholderUrl; // Fallback to placeholder if image fails to load
+            image.src = placeholderUrl;
         };
         card.appendChild(image);
 
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const redirectUrl = `https://redirect.ws/anonymous?url=${encodeURIComponent(realDownloadUrl)}`;
             modalDownloadBtn.dataset.url = redirectUrl;
 
-            modal.style.display = 'block';
+            modal.style.display = 'flex'; // Use flex to center the content
         });
 
         return card;
@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             const data = await response.text();
             const lines = data.trim().split('\n');
-            lines.shift(); // Remove header row
+            lines.shift();
 
             allGames = lines.map(line => {
                 const values = line.split(';');
@@ -146,5 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     helpButton.addEventListener('click', () => showPage(helpPage));
 
+    // Initial setup
+    modal.style.display = 'none';
     showPage(homePage);
 });
