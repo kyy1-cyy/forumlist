@@ -22,11 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let allGames = [];
     let gamesLoaded = false;
 
-    function showPage(page) {
-        homePage.style.display = 'none';
-        gamesListPage.style.display = 'none';
-        helpPage.style.display = 'none';
-        page.style.display = 'block';
+    function showPage(pageToShow) {
+        homePage.classList.add('hidden');
+        gamesListPage.classList.add('hidden');
+        helpPage.classList.add('hidden');
+        pageToShow.classList.remove('hidden');
     }
 
     function createGameCard(game) {
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const redirectUrl = `https://redirect.ws/anonymous?url=${encodeURIComponent(realDownloadUrl)}`;
             modalDownloadBtn.dataset.url = redirectUrl;
 
-            modal.style.display = 'flex'; // Use flex to center the content
+            modal.style.display = 'flex';
         });
 
         return card;
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function fetchGames() {
         if (gamesLoaded) return;
-        loadingIndicator.style.display = 'block';
+        loadingIndicator.classList.remove('hidden');
         postsContainer.innerHTML = '';
 
         try {
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Fetch error:', error);
             postsContainer.innerHTML = '<p>Error loading games. Please make sure VRP-GameList.txt is in the root folder.</p>';
         } finally {
-            loadingIndicator.style.display = 'none';
+            loadingIndicator.classList.add('hidden');
         }
     }
 
@@ -118,20 +118,16 @@ document.addEventListener('DOMContentLoaded', () => {
         displayGames(filteredGames);
     });
 
-    if (modalClose) {
-        modalClose.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
-    }
+    modalClose.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
 
-    if (modalDownloadBtn) {
-        modalDownloadBtn.addEventListener('click', (e) => {
-            const url = e.currentTarget.dataset.url;
-            if (url) {
-                window.open(url, '_blank');
-            }
-        });
-    }
+    modalDownloadBtn.addEventListener('click', (e) => {
+        const url = e.currentTarget.dataset.url;
+        if (url) {
+            window.open(url, '_blank');
+        }
+    });
 
     window.addEventListener('click', (e) => {
         if (e.target === modal) {
@@ -147,6 +143,5 @@ document.addEventListener('DOMContentLoaded', () => {
     helpButton.addEventListener('click', () => showPage(helpPage));
 
     // Initial setup
-    modal.style.display = 'none';
     showPage(homePage);
 });
