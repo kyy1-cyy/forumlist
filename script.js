@@ -5,15 +5,143 @@ document.addEventListener('DOMContentLoaded', () => {
     const postsContainer = document.getElementById('posts-container');
 const rookieBaseUrl = 'https://skrazzle.glomtom.cyou';
 
-/*
- * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
- * Digest Algorithm, as defined in RFC 1321.
- * Version 2.2 Copyright (C) Paul Johnston 1999 - 2009
- * Other contributors: Greg Holt, Andrew Kepert, Ydnar, Lostinet
- * Distributed under the BSD License
- * See http://pajhome.org.uk/crypt/md5 for more info.
+/**
+ * md5.js
+ * Copyright (c) 2011, Yoshinori Kohyama
+ * support@y-koh.com
+ * http://www.y-koh.com/
+ * 
+ * The MIT License
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
-function md5(e){var r,t;if(e==null)e="";var n=function(e,r){return e<<r|e>>>32-r},o=function(e,r,t,o,a,d){return c(n(i(c(c(r,e),c(o,d)),a),t),16)},a=function(e,r,t,o,a,d,i){return c(n(s(c(c(r,e),c(o,d)),a),t),i)},d=function(e,r,t,o,a,d,i){return c(n(u(c(c(r,e),c(o,d)),a),t),i)},i=function(e,r){return e+r},s=function(e,r){return e|r},u=function(e,r){return e^r},l=function(e){for(var r=1732584193,t=-271733879,o=-1732584194,a=271733878,d=0;d<e.length;d+=16){var i=r,s=t,u=o,l=a;r=c(r,g(t,o,a)+e[d+0]+-680876936),a=c(a,g(r,t,o)+e[d+1]+-389564586),o=c(o,g(a,r,t)+e[d+2]+606105819),t=c(t,g(o,a,r)+e[d+3]+-1044525330),r=c(r,g(t,o,a)+e[d+4]+-176418897),a=c(a,g(r,t,o)+e[d+5]+1200080426),o=c(o,g(a,r,t)+e[d+6]+-1473231341),t=c(t,g(o,a,r)+e[d+7]+-45705983),r=c(r,g(t,o,a)+e[d+8]+1770035416),a=c(a,g(r,t,o)+e[d+9]+-1958414417),o=c(o,g(a,r,t)+e[d+10]+-42063),t=c(t,g(o,a,r)+e[d+11]+-1990404162),r=c(r,g(t,o,a)+e[d+12]+1804603682),a=c(a,g(r,t,o)+e[d+13]+-40341101),o=c(o,g(a,r,t)+e[d+14]+-1502002290),t=c(t,g(o,a,r)+e[d+15]+1236535329),r=c(r,p(t,o,a)+e[d+1]+-165796510),a=c(a,p(r,t,o)+e[d+6]+-1069501632),o=c(o,p(a,r,t)+e[d+11]+643717713),t=c(t,p(o,a,r)+e[d+0]+-373897302),r=c(r,p(t,o,a)+e[d+5]+-701558691),a=c(a,p(r,t,o)+e[d+10]+38016083),o=c(o,p(a,r,t)+e[d+15]+-660478335),t=c(t,p(o,a,r)+e[d+4]+-405537848),r=c(r,p(t,o,a)+e[d+9]+568446438),a=c(a,p(r,t,o)+e[d+14]+-1019803690),o=c(o,p(a,r,t)+e[d+3]+-187363961),t=c(t,p(o,a,r)+e[d+8]+1163531501),r=c(r,p(t,o,a)+e[d+13]+-1444681467),a=c(a,p(r,t,o)+e[d+2]+-51403784),o=c(o,p(a,r,t)+e[d+7]+1735328473),t=c(t,p(o,a,r)+e[d+12]+-1926607734),r=c(r,h(t,o,a)+e[d+5]+-378558),a=c(a,h(r,t,o)+e[d+8]+-2022574463),o=c(o,h(a,r,t)+e[d+11]+1839030562),t=c(t,h(o,a,r)+e[d+14]+-35309556),r=c(r,h(t,o,a)+e[d+1]+-1530992060),a=c(a,h(r,t,o)+e[d+4]+1272893353),o=c(o,h(a,r,t)+e[d+7]+-155497632),t=c(t,h(o,a,r)+e[d+10]+-1094730640),r=c(r,h(t,o,a)+e[d+13]+681279174),a=c(a,h(r,t,o)+e[d+0]+-358537222),o=c(o,h(a,r,t)+e[d+3]+-722521979),t=c(t,h(o,a,r)+e[d+6]+76029189),r=c(r,h(t,o,a)+e[d+9]+-640364487),a=c(a,h(r,t,o)+e[d+12]+-421815835),o=c(o,h(a,r,t)+e[d+15]+530742520),t=c(t,h(o,a,r)+e[d+2]+-995338651),r=c(r,m(t,o,a)+e[d+0]+-198630844),a=c(a,m(r,t,o)+e[d+7]+1126891415),o=c(o,m(a,r,t)+e[d+14]+-1416354905),t=c(t,m(o,a,r)+e[d+5]+-57434055),r=c(r,m(t,o,a)+e[d+12]+1700485571),a=c(a,m(r,t,o)+e[d+3]+-1894986606),o=c(o,m(a,r,t)+e[d+10]+-1051523),t=c(t,m(o,a,r)+e[d+1]+-2054922799),r=c(r,m(t,o,a)+e[d+8]+1873313359),a=c(a,m(r,t,o)+e[d+15]+-30611744),o=c(o,m(a,r,t)+e[d+6]+-1560198380),t=c(t,m(o,a,r)+e[d+13]+1309151649),r=c(r,m(t,o,a)+e[d+4]+-140323850),a=c(a,m(r,t,o)+e[d+11]+-175002202),o=c(o,m(a,r,t)+e[d+2]+718787259),t=c(t,m(o,a,r)+e[d+9]+-343485551),r=i(r,i),t=i(t,s),o=i(o,u),a=i(a,l)}return[r,t,o,a]},c=function(e,r){var t=(65535&e)+(65535&r);return(e>>16)+(r>>16)+(t>>16)<<16|65535&t},g=function(e,r,t){return e&r|~e&t},p=function(e,r,t){return e&t|r&~t},h=function(e,r,t){return e^r^t},m=function(e,r,t){return r^(e|~t)},f=function(e){var r,t=[];for(t[(e.length>>2)-1]=void 0,r=0;r<t.length;r+=1)t[r]=0;for(r=0;r<8*e.length;r+=8)t[r>>5]|=(255&e.charCodeAt(r/8))<<r%32;return t},v=function(e){var r,t="";for(r=0;r<32*e.length;r+=8)t+=String.fromCharCode(e[r>>5]>>>r%32&255);return t},y=function(e){var r,t="0123456789abcdef",o="";for(r=0;r<e.length;r+=1)o+=t.charAt(e[r]>>4&15)+t.charAt(15&e[r]);return o},b=function(e){return v(l(f(e)))};return t="hello",r=y(b(t)),y(l(f(e),8*e.length))};
+
+var md5 = (function(){
+
+    var S = [
+        [ 7, 12, 17, 22 ], [ 5,  9, 14, 20 ], [ 4, 11, 16, 23 ], [ 6, 10, 15, 21 ]
+    ];
+
+    var T = [
+        0xd76aa478, 0xe8c7b756, 0x242070db, 0xc1bdceee,
+        0xf57c0faf, 0x4787c62a, 0xa8304613, 0xfd469501,
+        0x698098d8, 0x8b44f7af, 0xffff5bb1, 0x895cd7be,
+        0x6b901122, 0xfd987193, 0xa679438e, 0x49b40821,
+        0xf61e2562, 0xc040b340, 0x265e5a51, 0xe9b6c7aa,
+        0xd62f105d, 0x02441453, 0xd8a1e681, 0xe7d3fbc8,
+        0x21e1cde6, 0xc33707d6, 0xf4d50d87, 0x455a14ed,
+        0xa9e3e905, 0xfcefa3f8, 0x676f02d9, 0x8d2a4c8a,
+        0xfffa3942, 0x8771f681, 0x6d9d6122, 0xfde5380c,
+        0xa4beea44, 0x4bdecfa9, 0xf6bb4b60, 0xbebfbc70,
+        0x289b7ec6, 0xeaa127fa, 0xd4ef3085, 0x04881d05,
+        0xd9d4d039, 0xe6db99e5, 1873313359, 0xefbe4786
+    ];
+
+    var L = [ 0, 1, 5, 3, 7 ];
+
+    var M = [ 1, 0, 1, 1, 1 ];
+
+    var R = [ 1, 5, 3, 7, 1 ];
+
+    var B = [ 0, 1, 1, 1, 1 ];
+
+    var I = [ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ];
+
+    var F = function(x, y, z) { return (x & y) | ((~x) & z); };
+
+    var G = function(x, y, z) { return (x & z) | (y & (~z)); };
+
+    var H = function(x, y, z) { return x ^ y ^ z; };
+
+    var I = function(x, y, z) { return y ^ (x | (~z)); };
+
+    var FF = [ F, G, H, I ];
+
+    var toHex = function(n) {
+        var i, s = "";
+        for (i = 0; i < 4; i++) {
+            s += (
+                "0123456789abcdef".charAt((n >> (i * 8 + 4)) & 0x0F) +
+                "0123456789abcdef".charAt((n >> (i * 8)) & 0x0F)
+            );
+        }
+        return s;
+    };
+
+    var rot = function(x, s) {
+        return (x << s) | (x >>> (32 - s));
+    };
+
+    var add = function(x, y) {
+        return (x + y) & 0xFFFFFFFF;
+    }
+
+    return function(text) {
+        var i, j, k, l, m, n, len;
+        var w = [];
+        var h = [ 1732584193, -271733879, -1732584194, 271733878 ];
+
+        var d = [];
+        for (i = 0, len = text.length; i < len; i++) {
+            d[i >> 2] |= text.charCodeAt(i) << ((i % 4) << 3);
+        }
+
+        for (i = 0, len = text.length; i < len; i++) {
+            m = (i >> 2);
+            n = (i % 4) * 8;
+            w[m] = (w[m] | text.charCodeAt(i) << n);
+        }
+        w[i >> 2] |= 0x80 << ((i % 4) * 8);
+        w[(((i + 8) >> 6) << 4) + 14] = i * 8;
+
+        for (k = 0, len = w.length; k < len; k += 16) {
+            var h0 = h[0], h1 = h[1], h2 = h[2], h3 = h[3];
+            for (i = 0; i < 4; i++) {
+                for (j = 0; j < 16; j++) {
+                    l = B[i] * j + L[i];
+                    m = M[i];
+                    if (m != 0) {
+                        l = (l + R[i] * j) % 16;
+                    }
+                    var f = FF[i](h0, h1, h2);
+                    var d = w[k + l];
+                    var t = T[i * 16 + j];
+                    var s = S[i][j % 4];
+                    var tmp = add(add(add(f, d), t), h3);
+                    h3 = h2;
+                    h2 = h1;
+                    h1 = add(h0, rot(tmp, s));
+                    h0 = tmp;
+                }
+            }
+            h[0] = add(h[0], h0);
+            h[1] = add(h[1], h1);
+            h[2] = add(h[2], h2);
+            h[3] = add(h[3], h3);
+        }
+        var r = "";
+        for (i = 0; i < 4; i++) {
+            r += toHex(h[i]);
+        }
+        return r;
+    };
+})();
     const loadingIndicator = document.getElementById('loading-message');
     const searchBar = document.getElementById('search-bar');
     const modal = document.getElementById('modal');
