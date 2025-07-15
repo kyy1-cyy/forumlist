@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const gamesListPage = document.getElementById('games-list-page');
     const helpPage = document.getElementById('help-page');
     const postsContainer = document.getElementById('posts-container');
-let rookieBaseUrl = null;
+const rookieBaseUrl = 'https://skrazzle.glomtom.cyou';
 
 /*
  * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message
@@ -54,13 +54,7 @@ function md5(e){var r,t;if(e==null)e="";var n=function(e,r){return e<<r|e>>>32-r
         downloadButton.textContent = 'Download';
         downloadButton.className = 'download-btn';
         downloadButton.onclick = () => {
-            if (!rookieBaseUrl) {
-                rookieBaseUrl = prompt('Please enter the Rookie Base URL for downloads:');
-                if (!rookieBaseUrl) {
-                    alert('Download cancelled. Base URL is required.');
-                    return;
-                }
-            }
+            
 
             const releaseNameWithNewLine = game.releaseName + '\n';
             const gameHash = md5(releaseNameWithNewLine);
