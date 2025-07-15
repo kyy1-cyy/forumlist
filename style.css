@@ -67,7 +67,7 @@ nav button:hover {
 /* Search Bar Styles */
 .search-container {
     max-width: 600px;
-    margin: 0 auto 30px auto;
+    margin: 20px auto 30px auto;
 }
 
 #search-bar {
@@ -142,9 +142,8 @@ nav button:hover {
 /* Loading and Modal Styles */
 .loading { font-size: 1.2em; text-align: center; grid-column: 1 / -1; color: #a0a0a0; }
 
-/* ** FIX for Modal ** */
 .modal {
-    display: none; /* Hidden by default */
+    display: none; /* Hidden by default, JS will change to 'flex' */
     position: fixed;
     z-index: 1000;
     left: 0;
@@ -188,3 +187,19 @@ nav button:hover {
     margin-top: 20px;
 }
 #modal-download-btn:hover { background-color: #0056b3; }
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+    #posts-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .post-card h3 {
+        font-size: 0.9em;
+    }
+
+    .post-card .post-content {
+        font-size: 0.8em;
+    }
+}
