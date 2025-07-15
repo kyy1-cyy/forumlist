@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Discord Forum Gameslist</title>
+    <title>ForumList</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -18,54 +18,38 @@
     </header>
 
     <main class="container">
-        <!-- Page 1: Home (Default View) -->
         <div id="home-page">
             <h2>Welcome to ForumList</h2>
-            <p>Click on either the Games List or the Help button at the top to start.</p>
+            <p>Your one-stop place for community-driven content.</p>
+            <p>Click "Games List" to get started.</p>
         </div>
 
-        <!-- Page 2: Games List (Initially Hidden) -->
         <div id="games-list-page" class="hidden">
             <div class="search-container">
-                <input type="text" id="search-bar" placeholder="Search for a game by title...">
+                <input type="text" id="search-bar" placeholder="Search for a game by name or release...">
             </div>
-            <div id="posts-container">
-                <!-- Forum posts will be loaded here as game cards -->
-            </div>
-            <div id="loading-message" class="loading loading-dots">Loading games</div>
+            <p id="loading-message" class="loading loading-dots">Loading games</p>
+            <div id="posts-container"></div>
         </div>
 
-        <!-- Page 3: Help (Initially Hidden) -->
         <div id="help-page" class="hidden">
-            <h2>Need additional help?</h2>
-            <p>Join the Discord below for help and instructions on how to install the games.</p>
-            <a href="https://discord.gg/j92rPV6FE4" target="_blank" rel="noopener noreferrer" class="discord-logo-link" title="Join our Discord">
-                Discord
-            </a>
+            <h2>Help & Support</h2>
+            <p>If you need help, have questions, or want to join the community, find us on Discord.</p>
+            <a href="https://discord.gg/example" target="_blank" class="discord-logo-link">Join our Discord</a>
         </div>
     </main>
 
-    <!-- Modal for displaying full post details -->
     <div id="modal" class="modal-overlay">
         <div class="modal-content">
             <span class="close-button">&times;</span>
             <h2 id="modal-title"></h2>
             <div id="modal-details"></div>
             <div id="modal-download-section">
-                <h3>Download & Extract</h3>
-                <p><strong>1. Run this command in your terminal:</strong></p>
-                <div class="command-box">
-                    <code id="modal-rclone-command"></code>
-                    <button id="copy-command-btn" title="Copy Command">Copy</button>
-                </div>
-                <p><strong>2. Use this password to extract the file:</strong></p>
-                <div class="command-box">
-                    <code id="modal-password"></code>
-                    <button id="copy-password-btn" title="Copy Password">Copy</button>
-                </div>
+                <button id="modal-download-btn" class="download-btn">Download Game</button>
             </div>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
