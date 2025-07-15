@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ForumList</title>
+    <title>SplicyVr</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <header>
         <div class="header-content">
-            <h1>ForumList</h1>
+            <h1>SplicyVr</h1>
             <nav>
                 <button id="nav-games-list">Games List</button>
                 <button id="nav-help">Help</button>
@@ -19,40 +18,44 @@
     </header>
 
     <main class="container">
-        <!-- Home Page Content -->
+        <!-- Page 1: Home (Default View) -->
         <div id="home-page">
             <h2>Welcome to ForumList</h2>
-            <p>Your one-stop place for community-driven content.</p>
-            <p>Click "Games List" to get started.</p>
+            <p>Click on either the Games List or the Help button at the top to start.</p>
         </div>
 
-        <!-- Games List Page Content (Initially Hidden) -->
+        <!-- Page 2: Games List (Initially Hidden) -->
         <div id="games-list-page" class="hidden">
             <div class="search-container">
-                <input type="text" id="search-bar" placeholder="Search for a game by name or release...">
+                <input type="text" id="search-bar" placeholder="Search for a game by title...">
             </div>
-            <div id="loading-message" class="loading hidden">Loading games...</div>
-            <div id="posts-container"></div>
+            <div id="posts-container">
+                <!-- Forum posts will be loaded here as game cards -->
+            </div>
+            <div id="loading-message" class="loading loading-dots">Loading games</div>
         </div>
 
-        <!-- Help Page Content (Initially Hidden) -->
+        <!-- Page 3: Help (Initially Hidden) -->
         <div id="help-page" class="hidden">
-            <h2>Help & Support</h2>
-            <p>If you need assistance, the best place to get help is our Discord server.</p>
-            <a href="https://discord.gg/226xR6pS" target="_blank" class="discord-btn">Join Discord</a>
+            <h2>Need additional help?</h2>
+            <p>Join the Discord below for help and instructions on how to install the games.</p>
+            <a href="https://discord.gg/j92rPV6FE4" target="_blank" rel="noopener noreferrer" class="discord-logo-link" title="Join our Discord">
+                Discord
+            </a>
         </div>
     </main>
 
-    <!-- Modal (remains at the end of the body) -->
-    <div id="modal" class="modal">
+    <!-- Modal for displaying full post details -->
+    <div id="modal" class="modal-overlay">
         <div class="modal-content">
             <span class="close-button">&times;</span>
             <h2 id="modal-title"></h2>
             <div id="modal-details"></div>
-            <button id="modal-download-btn">Download Game</button>
+            <div id="modal-download-section">
+                <button id="modal-download-btn" class="download-btn">Download Game</button>
+            </div>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
