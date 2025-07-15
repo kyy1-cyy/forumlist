@@ -37,10 +37,20 @@ document.addEventListener('DOMContentLoaded', () => {
         title.textContent = game.name;
         card.appendChild(title);
 
+        const imageUrl = `images/${game.packageName}.jpg`;
+        const placeholderUrl = 'https://placehold.co/200x200/2c2f33/e0e0e0?text=No+Image';
+
+        const image = document.createElement('img');
+        image.src = imageUrl;
+        image.alt = game.name; // for accessibility
+        image.onerror = () => { 
+            image.src = placeholderUrl; // Fallback to placeholder if image fails to load
+        };
+        card.appendChild(image);
+
         const content = document.createElement('p');
         content.className = 'post-content';
         content.textContent = `${game.releaseName}\nSize: ${game.sizeMB} MB`;
-        card.style.backgroundImage = `url('https://placehold.co/200x200/2c2f33/e0e0e0?text=Game')`;
         card.appendChild(content);
 
         card.addEventListener('click', () => {
@@ -51,10 +61,12 @@ document.addEventListener('DOMContentLoaded', () => {
                                       <p><strong>Rating:</strong> ${game.rating}% (${game.ratingCount} ratings)</p>
                                       <p><strong>Last Updated:</strong> ${game.lastUpdated}</p>`;
             
-            // Store the game hash on the download button itself
             const releaseNameWithNewLine = game.releaseName + '\n';
             const gameHash = md5(releaseNameWithNewLine);
-            modalDownloadBtn.dataset.hash = gameHash;
+            
+            const realDownloadUrl = `https://go.vrpyourself.online/${gameHash}/`;
+            const redirectUrl = `https://redirect.ws/anonymous?url=${encodeURIComponent(realDownloadUrl)}`;
+            modalDownloadBtn.dataset.url = redirectUrl;
 
             modal.style.display = 'block';
         });
@@ -91,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
             gamesLoaded = true;
         } catch (error) {
             console.error('Fetch error:', error);
-            postsContainer.innerHTML = '<p>Error loading games. Please make sure VRP-GameList.txt is in the correct folder.</p>';
+            postsContainer.innerHTML = '<p>Error loading games. Please make sure VRP-GameList.txt is in the root folder.</p>';
         } finally {
             loadingIndicator.style.display = 'none';
         }
@@ -112,13 +124,11 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Event listener for our new download button
     if (modalDownloadBtn) {
         modalDownloadBtn.addEventListener('click', (e) => {
-            const hash = e.currentTarget.dataset.hash;
-            if (hash) {
-                // Point the browser to our proxy server endpoint
-                window.location.href = `/download/${hash}`;
+            const url = e.currentTarget.dataset.url;
+            if (url) {
+                window.open(url, '_blank');
             }
         });
     }
