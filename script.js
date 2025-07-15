@@ -162,7 +162,7 @@ var md5 = (function(){
     const modalTitle = document.getElementById('modal-title');
     const modalDescription = document.getElementById('modal-description');
     const modalDate = document.getElementById('modal-date');
-    const modalClose = document.querySelector('.modal .close');
+    const modalClose = document.querySelector('.close-button');
 
     const homeButton = document.querySelector('header h1');
     const gamesListButton = document.getElementById('nav-games-list');
@@ -293,9 +293,11 @@ var md5 = (function(){
         displayGames(filteredGames);
     });
 
-    modalClose.addEventListener('click', () => {
-        modal.style.display = 'none';
-    });
+    if (modalClose) {
+        modalClose.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+    }
 
     window.addEventListener('click', (e) => {
         if (e.target === modal) {
