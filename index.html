@@ -8,18 +8,43 @@
 </head>
 <body>
     <header>
-        <h1>Forum Gameslist</h1>
-        <p>Powered by Discord & Netlify</p>
-        <a href="https://discord.gg/j92rPV6FE4" target="_blank" rel="noopener noreferrer" class="discord-logo-link" title="Join our Discord">
-    Discord
-</a>        <div class="search-container">
-            <input type="text" id="search-bar" placeholder="Search for a game by title...">
+        <div class="header-content">
+            <h1>ForumList</h1>
+            <nav>
+                <button id="nav-games-list">Games List</button>
+                <button id="nav-help">Help</button>
+            </nav>
         </div>
     </header>
-    <main id="posts-container" class="container">
-        <!-- Forum posts will be loaded here as game cards -->
-        <div class="loading">Loading<br>[around 10s to load<span class="loading-dots"></span>]</div>
+
+    <main class="container">
+        <!-- Page 1: Home (Default View) -->
+        <div id="home-page">
+            <h2>Welcome to ForumList</h2>
+            <p>Click on either the Games List or the Help button at the top to start.</p>
+        </div>
+
+        <!-- Page 2: Games List (Initially Hidden) -->
+        <div id="games-list-page" class="hidden">
+            <div class="search-container">
+                <input type="text" id="search-bar" placeholder="Search for a game by title...">
+            </div>
+            <div id="posts-container">
+                <!-- Forum posts will be loaded here as game cards -->
+            </div>
+            <div id="loading-message" class="loading loading-dots">Loading games</div>
+        </div>
+
+        <!-- Page 3: Help (Initially Hidden) -->
+        <div id="help-page" class="hidden">
+            <h2>Need additional help?</h2>
+            <p>Join the Discord below for help and instructions on how to install the games.</p>
+            <a href="https://discord.gg/j92rPV6FE4" target="_blank" rel="noopener noreferrer" class="discord-logo-link" title="Join our Discord">
+                Discord
+            </a>
+        </div>
     </main>
+
     <script src="script.js"></script>
 
     <!-- Modal for displaying full post details -->

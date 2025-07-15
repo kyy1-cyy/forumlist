@@ -18,15 +18,61 @@ body {
 }
 
 /* Header Styles */
+.hidden {
+    display: none;
+}
+
 header {
-    background-color: #1f1f1f; /* Slightly lighter dark shade */
-    padding: 20px;
-    text-align: center;
+    background-color: #1f1f1f;
+    padding: 0 20px;
     border-bottom: 1px solid #333;
-    position: sticky; /* Make header sticky */
+    position: sticky;
     top: 0;
-    z-index: 100; /* Ensure it's above other content */
-    flex-shrink: 0; /* Prevent header from shrinking */
+    z-index: 100;
+    flex-shrink: 0;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 70px;
+}
+
+header h1 {
+    cursor: pointer;
+}
+
+nav button {
+    background: none;
+    border: 1px solid #555;
+    color: #e0e0e0;
+    padding: 8px 16px;
+    margin-left: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+nav button:hover {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff;
+}
+
+/* Page content styling */
+#home-page, #help-page {
+    text-align: center;
+    padding-top: 40px;
+}
+
+#help-page .discord-logo-link {
+    display: inline-block;
+    margin-top: 20px;
+    position: static;
+    transform: none;
 }
 
 header h1 {
@@ -64,10 +110,10 @@ header p {
 }
 
 /* Posts Container */
-main#posts-container {
+main.container {
     flex-grow: 1; /* Allow main to grow and fill available space */
     overflow-y: auto; /* **CRITICAL: Make only this section scrollable** */
-    padding-top: 20px;
+    padding: 20px;
 }
 
 #posts-container {

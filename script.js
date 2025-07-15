@@ -1,19 +1,44 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Page elements
+    const homePage = document.getElementById('home-page');
+    const gamesListPage = document.getElementById('games-list-page');
+    const helpPage = document.getElementById('help-page');
+
+    // Navigation buttons
+    const navGamesList = document.getElementById('nav-games-list');
+    const navHelp = document.getElementById('nav-help');
+    const homeButton = document.querySelector('header h1');
+
+    // Games list elements
     const postsContainer = document.getElementById('posts-container');
     const searchBar = document.getElementById('search-bar');
+    const loadingMessage = document.getElementById('loading-message');
+
+    // Modal elements
     const modal = document.getElementById('modal');
     const modalTitle = document.getElementById('modal-title');
     const modalDescription = document.getElementById('modal-description');
     const modalDate = document.getElementById('modal-date');
     const closeButton = document.querySelector('.close-button');
 
-    let allPosts = []; // To store all fetched posts
+    let allPosts = [];
+    let postsLoaded = false;
+
+    const showPage = (pageId) => {
+        homePage.classList.add('hidden');
+        gamesListPage.classList.add('hidden');
+        helpPage.classList.add('hidden');
+        const pageToShow = document.getElementById(pageId);
+        if (pageToShow) {
+            pageToShow.classList.remove('hidden');
+        }
+    };
 
     const displayError = (message) => {
         postsContainer.innerHTML = `<div class="error">${message}</div>`;
+        loadingMessage.style.display = 'none';
     };
 
-    // Function to convert URLs in text to clickable links
     const linkify = (text) => {
         const urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
         return text.replace(urlRegex, url => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`);
@@ -33,33 +58,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const createPostCard = (post) => {
         const card = document.createElement('div');
         card.className = 'card';
-        card.dataset.id = post.id; // Store post id for filtering
+        card.addEventListener('click', () => openModal(post));
 
         const title = document.createElement('h2');
         title.textContent = post.title;
 
         const description = document.createElement('p');
         description.textContent = post.description || 'No description provided.';
-        if (!post.description) {
-            description.style.fontStyle = 'italic';
-        }
+        if (!post.description) description.style.fontStyle = 'italic';
 
         const date = document.createElement('div');
         date.className = 'date';
         date.textContent = new Date(post.createdAt).toLocaleDateString();
 
-        card.appendChild(title);
-        card.appendChild(description);
-        card.appendChild(date);
-
-        // Add click listener to open the modal
-        card.addEventListener('click', () => openModal(post));
-
+        card.append(title, description, date);
         return card;
     };
 
     const renderPosts = (posts) => {
-        postsContainer.innerHTML = ''; // Clear existing posts
+        postsContainer.innerHTML = '';
         if (posts.length === 0) {
             postsContainer.innerHTML = '<div class="loading">No matching posts found.</div>';
             return;
@@ -70,49 +87,65 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Fetch posts from the Netlify function
-    fetch('/.netlify/functions/fetch-posts')
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(err => { throw new Error(`Network error: ${response.status} - ${err.error || 'Unknown error'}`) });
-            }
-            return response.json();
-        })
-        .then(posts => {
-            if (posts.error) {
-                console.error('Error from function:', posts.details);
-                displayError(`Error fetching posts: ${posts.error}`);
-                return;
-            }
-            allPosts = posts;
-            renderPosts(allPosts);
-        })
-        .catch(error => {
-            console.error('Failed to fetch posts:', error);
-            displayError('Could not load posts. Please check the console for more details.');
-        });
+    const fetchGames = () => {
+        if (postsLoaded) return;
+        postsLoaded = true;
+        loadingMessage.style.display = 'block';
 
-    // Event listener for the search bar
+        fetch('/.netlify/functions/fetch-posts')
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => { throw new Error(`Network error: ${response.status} - ${err.error || 'Unknown error'}`) });
+                }
+                return response.json();
+            })
+            .then(posts => {
+                loadingMessage.style.display = 'none';
+                if (posts.error) {
+                    console.error('Error from function:', posts.details);
+                    displayError(`Error fetching posts: ${posts.error}`);
+                    return;
+                }
+                allPosts = posts;
+                renderPosts(allPosts);
+            })
+            .catch(error => {
+                console.error('Failed to fetch posts:', error);
+                displayError('Could not load posts. Please check the console for more details.');
+            });
+    };
+
+    // --- Event Listeners ---
+
+    navGamesList.addEventListener('click', () => {
+        showPage('games-list-page');
+        fetchGames();
+    });
+
+    navHelp.addEventListener('click', () => {
+        showPage('help-page');
+    });
+
+    homeButton.addEventListener('click', () => {
+        showPage('home-page');
+    });
+
     searchBar.addEventListener('input', (e) => {
         const searchTerm = e.target.value.toLowerCase();
-        if (searchTerm.length >= 2 || searchTerm.length === 0) {
-            const filteredPosts = allPosts.filter(post => 
-                post.title.toLowerCase().includes(searchTerm)
-            );
-            renderPosts(filteredPosts);
-        }
+        const filteredPosts = allPosts.filter(post => 
+            post.title.toLowerCase().includes(searchTerm)
+        );
+        renderPosts(filteredPosts);
     });
 
-    // Event listeners for closing the modal
     closeButton.addEventListener('click', closeModal);
     modal.addEventListener('click', (e) => {
-        if (e.target === modal) { // Only close if clicking on the overlay itself
-            closeModal();
-        }
+        if (e.target === modal) closeModal();
     });
     window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modal.style.display === 'flex') {
-            closeModal();
-        }
+        if (e.key === 'Escape' && modal.style.display === 'flex') closeModal();
     });
+
+    // Show home page by default
+    showPage('home-page');
 });
