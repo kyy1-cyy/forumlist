@@ -88,7 +88,8 @@ header p {
 
 /* Search Bar Styles */
 .search-container {
-    margin-top: 15px;
+    max-width: 600px; /* Constrain the width of the search bar */
+    margin: 0 auto 30px auto; /* Center it and add 30px of space below */
 }
 
 #search-bar {
