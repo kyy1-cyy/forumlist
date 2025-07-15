@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalContent = document.getElementById('modal-content');
     const modalClose = document.querySelector('.close');
 
-    const homeButton = document.querySelector('.header-title');
-    const gamesListButton = document.getElementById('games-list-btn');
-    const helpButton = document.getElementById('help-btn');
+    const homeButton = document.querySelector('header h1');
+    const gamesListButton = document.getElementById('nav-games-list');
+    const helpButton = document.getElementById('nav-help');
 
     let allGames = [];
     let gamesLoaded = false;
