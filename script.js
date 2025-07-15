@@ -3,11 +3,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const gamesListPage = document.getElementById('games-list-page');
     const helpPage = document.getElementById('help-page');
     const postsContainer = document.getElementById('posts-container');
-    const loadingIndicator = document.getElementById('loading-indicator');
+    const loadingIndicator = document.getElementById('loading-message');
     const searchBar = document.getElementById('search-bar');
     const modal = document.getElementById('modal');
-    const modalContent = document.getElementById('modal-content');
-    const modalClose = document.querySelector('.close');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDescription = document.getElementById('modal-description');
+    const modalDate = document.getElementById('modal-date');
+    const modalClose = document.querySelector('.close-button');
 
     const homeButton = document.querySelector('header h1');
     const gamesListButton = document.getElementById('nav-games-list');
@@ -38,13 +40,13 @@ document.addEventListener('DOMContentLoaded', () => {
         card.appendChild(content);
 
         card.addEventListener('click', () => {
-            // Display all game details in the modal
-            modalContent.innerHTML = `<h2>${game.name}</h2>
-                                  <p><strong>Release:</strong> ${game.releaseName}</p>
-                                  <p><strong>Package:</strong> ${game.packageName}</p>
-                                  <p><strong>Size:</strong> ${game.sizeMB} MB</p>
-                                  <p><strong>Updated:</strong> ${game.lastUpdated}</p>
-                                  <p><strong>Rating:</strong> ${game.rating}% (${game.ratingCount} ratings)</p>`;
+            // Populate the modal with game details without overwriting the close button
+            modalTitle.textContent = game.name;
+            modalDescription.innerHTML = `<p><strong>Release:</strong> ${game.releaseName}</p>
+                                          <p><strong>Package:</strong> ${game.packageName}</p>
+                                          <p><strong>Size:</strong> ${game.sizeMB} MB</p>
+                                          <p><strong>Rating:</strong> ${game.rating}% (${game.ratingCount} ratings)</p>`;
+            modalDate.textContent = `Last Updated: ${game.lastUpdated}`;
             modal.style.display = 'block';
         });
 
