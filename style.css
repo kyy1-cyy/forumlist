@@ -6,20 +6,12 @@ body {
     margin: 0;
     padding: 0;
     line-height: 1.6;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden; /* Prevent the whole page from scrolling */
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    overflow: hidden;
 }
 
 /* Header Styles */
@@ -34,7 +26,6 @@ header {
     position: sticky;
     top: 0;
     z-index: 100;
-    flex-shrink: 0;
 }
 
 .header-content {
@@ -73,17 +64,10 @@ nav button:hover {
     padding-top: 40px;
 }
 
-#games-list-page {
-    display: flex;
-    flex-direction: column;
-    height: 100%; /* Ensure it fills the container */
-}
-
 /* Search Bar Styles */
 .search-container {
     max-width: 600px;
     margin: 0 auto 30px auto;
-    flex-shrink: 0; /* Prevent search bar from shrinking */
 }
 
 #search-bar {
@@ -102,14 +86,11 @@ nav button:hover {
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-/* Posts Container - This is the scrollable part */
+/* Posts Container */
 #posts-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
-    overflow-y: auto; /* Make this grid scrollable */
-    flex-grow: 1; /* Allow it to take up the remaining space */
-    padding: 5px; /* Add a little space around the cards */
 }
 
 /* Game Card Styles */
@@ -122,7 +103,7 @@ nav button:hover {
     transition: background-color 0.3s, transform 0.2s;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* Hide overflowing content */
+    overflow: hidden;
 }
 
 .post-card:hover {
@@ -135,7 +116,7 @@ nav button:hover {
     margin-top: 0;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis; /* Add '...' to long titles */
+    text-overflow: ellipsis;
     flex-shrink: 0;
 }
 
@@ -158,13 +139,52 @@ nav button:hover {
     flex-grow: 1;
 }
 
-/* Loading and Modal Styles (unchanged) */
+/* Loading and Modal Styles */
 .loading { font-size: 1.2em; text-align: center; grid-column: 1 / -1; color: #a0a0a0; }
-.modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px; box-sizing: border-box; }
-.modal-content { background-color: #1e1e1e; padding: 30px; border-radius: 10px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5); width: 90%; max-width: 700px; max-height: 90vh; overflow-y: auto; position: relative; color: #e0e0e0; }
+
+/* ** FIX for Modal ** */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #1e1e1e;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    width: 90%;
+    max-width: 700px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    color: #e0e0e0;
+}
+
 #modal-title { margin-top: 0; color: #fff; border-bottom: 1px solid #444; padding-bottom: 10px; margin-bottom: 15px; }
 #modal-details p { margin: 8px 0; }
 .close-button { position: absolute; top: 15px; right: 20px; font-size: 2em; color: #aaa; cursor: pointer; transition: color 0.2s; }
 .close-button:hover { color: #fff; }
-#modal-download-btn { background-color: #007bff; color: white; padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer; width: 100%; font-size: 1.1em; text-align: center; margin-top: 20px; }
+
+#modal-download-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1.1em;
+    text-align: center;
+    margin-top: 20px;
+}
 #modal-download-btn:hover { background-color: #0056b3; }
