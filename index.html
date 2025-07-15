@@ -13,7 +13,6 @@
             <nav>
                 <button id="nav-games-list">Games List</button>
                 <button id="nav-help">Help</button>
-                <button id="change-url-btn">Change Base URL</button>
             </nav>
         </div>
     </header>
@@ -51,8 +50,20 @@
         <div class="modal-content">
             <span class="close-button">&times;</span>
             <h2 id="modal-title"></h2>
-            <p id="modal-description"></p>
-            <div id="modal-date" class="date"></div>
+            <div id="modal-details"></div>
+            <div id="modal-download-section">
+                <h3>Download & Extract</h3>
+                <p><strong>1. Run this command in your terminal:</strong></p>
+                <div class="command-box">
+                    <code id="modal-rclone-command"></code>
+                    <button id="copy-command-btn" title="Copy Command">Copy</button>
+                </div>
+                <p><strong>2. Use this password to extract the file:</strong></p>
+                <div class="command-box">
+                    <code id="modal-password"></code>
+                    <button id="copy-password-btn" title="Copy Password">Copy</button>
+                </div>
+            </div>
         </div>
     </div>
     <script src="script.js"></script>
