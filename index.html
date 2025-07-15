@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <header>
         <div class="header-content">
             <h1>ForumList</h1>
@@ -18,35 +19,37 @@
     </header>
 
     <main class="container">
+        <!-- Home Page Content -->
         <div id="home-page">
             <h2>Welcome to ForumList</h2>
             <p>Your one-stop place for community-driven content.</p>
             <p>Click "Games List" to get started.</p>
         </div>
 
+        <!-- Games List Page Content (Initially Hidden) -->
         <div id="games-list-page" class="hidden">
             <div class="search-container">
                 <input type="text" id="search-bar" placeholder="Search for a game by name or release...">
             </div>
-            <p id="loading-message" class="loading loading-dots">Loading games</p>
+            <div id="loading-message" class="loading hidden">Loading games...</div>
             <div id="posts-container"></div>
         </div>
 
+        <!-- Help Page Content (Initially Hidden) -->
         <div id="help-page" class="hidden">
             <h2>Help & Support</h2>
-            <p>If you need help, have questions, or want to join the community, find us on Discord.</p>
-            <a href="https://discord.gg/example" target="_blank" class="discord-logo-link">Join our Discord</a>
+            <p>If you need assistance, the best place to get help is our Discord server.</p>
+            <a href="https://discord.gg/226xR6pS" target="_blank" class="discord-btn">Join Discord</a>
         </div>
     </main>
 
-    <div id="modal" class="modal-overlay">
+    <!-- Modal (remains at the end of the body) -->
+    <div id="modal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
             <h2 id="modal-title"></h2>
             <div id="modal-details"></div>
-            <div id="modal-download-section">
-                <button id="modal-download-btn" class="download-btn">Download Game</button>
-            </div>
+            <button id="modal-download-btn">Download Game</button>
         </div>
     </div>
 
