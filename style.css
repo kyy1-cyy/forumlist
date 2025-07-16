@@ -111,14 +111,19 @@ header p {
 /* Posts Container */
 main.container {
     flex-grow: 1; /* Allow main to grow and fill available space */
-    overflow-y: auto; /* **CRITICAL: Make only this section scrollable** */
+    overflow-y: hidden; /* **FIX: Prevent body scroll, we will scroll the container instead** */
     padding: 20px;
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column;
 }
 
 #posts-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
+    overflow-y: auto; /* **FIX: Make the grid container scrollable** */
+    flex-grow: 1; /* Allow it to fill the space */
+    padding-right: 10px; /* Add some space for the scrollbar */
 }
 
 /* Game Card Styles */
@@ -129,22 +134,34 @@ main.container {
     padding: 15px;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
-    aspect-ratio: 1 / 1; /* Make the card a square */
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Pushes content apart */
+    overflow: hidden; /* **FIX: Hide content that spills out** */
 }
 
 .post-card h3 {
     margin-top: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* **FIX: Add '...' to long titles** */
+    min-height: 1.2em; /* Prevent layout shift on short titles */
 }
 
-.post-card p {
+.post-card .post-content {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     margin-bottom: 0;
     white-space: pre-wrap; /* Ensures the line break in the size text works */
+}
+
+.post-card img {
+    max-width: 90%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin: 10px auto;
+    display: block;
 }
 
 .download-btn {
