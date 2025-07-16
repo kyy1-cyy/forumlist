@@ -63,9 +63,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const releaseNameWithNewLine = game.releaseName + '\n';
             const gameHash = md5(releaseNameWithNewLine);
             
-            const realDownloadUrl = `https://go.vrpyourself.online/${gameHash}/`;
-            const redirectUrl = `/redirect.html?url=${encodeURIComponent(realDownloadUrl)}`;
-            modalDownloadBtn.dataset.url = redirectUrl;
+            const password = "Z0w1OVZmZ1B4b0hS"; // The secret from vrp-public.json
+            const realDownloadUrl = `https://go.vrpyourself.online/${password}/${gameHash}/`;
+            modalDownloadBtn.dataset.url = realDownloadUrl; // No longer need the redirect page
+            
 
             modal.style.display = 'block';
         });
