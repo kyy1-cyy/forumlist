@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const gameHash = md5(releaseNameWithNewLine);
             
             const realDownloadUrl = `https://go.vrpyourself.online/${gameHash}/`;
-            const redirectUrl = `https://href.li/?${realDownloadUrl}`;
+            const redirectUrl = `/redirect.html?url=${encodeURIComponent(realDownloadUrl)}`;
             modalDownloadBtn.dataset.url = redirectUrl;
 
             modal.style.display = 'block';

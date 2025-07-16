@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Redirecting...</title>
+    <meta http-equiv="refresh" content="0;url=REPLACE_ME">
+    <script>
+        // Fallback for browsers that might not support meta refresh
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetUrl = urlParams.get('url');
+            if (targetUrl) {
+                window.location.replace(targetUrl);
+            }
+        };
+    </script>
+</head>
+<body>
+    <p>If you are not redirected automatically, <a id="manual-link" href="#">click here</a>.</p>
+</body>
+</html>
