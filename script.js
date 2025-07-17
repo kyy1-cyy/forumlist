@@ -19,7 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const helpButton = document.getElementById('nav-help');
 
     let allGames = [];
-    let gamesLoaded = false;
+    let gamesLoaded = false; // Tracks if the initial fetch is done
+    let displayedGames = []; // Tracks the games currently shown on screen
+    const gamesPerBatch = 40; // Number of games to load at a time
+    let isLoading = false; // Prevents multiple loads at once
 
     function showPage(page) {
         homePage.style.display = 'none';
@@ -67,19 +70,34 @@ document.addEventListener('DOMContentLoaded', () => {
             const realDownloadUrl = `https://go.vrpyourself.online/${password}/${gameHash}/`;
             modalDownloadBtn.dataset.url = realDownloadUrl;
             
-
+            // Hide the download URL and instructions when opening the modal
+            downloadUrlContainer.classList.add('hidden');
+            downloadInstructions.classList.add('hidden');
+            
             modal.style.display = 'block';
         });
 
         return card;
     }
 
-    function displayGames(games) {
-        postsContainer.innerHTML = '';
-        games.forEach(game => {
+    function renderGames(gamesToRender, clearContainer = false) {
+        if (clearContainer) {
+            postsContainer.innerHTML = '';
+        }
+        gamesToRender.forEach(game => {
             const card = createGameCard(game);
             postsContainer.appendChild(card);
         });
+    }
+
+    function loadMoreGames() {
+        if (isLoading || displayedGames.length >= allGames.length) return;
+
+        isLoading = true;
+        const nextBatch = allGames.slice(displayedGames.length, displayedGames.length + gamesPerBatch);
+        renderGames(nextBatch);
+        displayedGames.push(...nextBatch);
+        isLoading = false;
     }
 
     async function fetchGames() {
@@ -99,8 +117,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 return { name: values[0], releaseName: values[1], packageName: values[2], versionCode: values[3], lastUpdated: values[4], sizeMB: values[5], downloads: values[6], rating: values[7], ratingCount: values[8] };
             });
 
-            displayGames(allGames);
             gamesLoaded = true;
+            displayedGames = []; // Reset for initial load
+            loadMoreGames(); // Load the first batch
         } catch (error) {
             console.error('Fetch error:', error);
             postsContainer.innerHTML = '<p>Error loading games. Please make sure VRP-GameList.txt is in the correct folder.</p>';
@@ -111,27 +130,77 @@ document.addEventListener('DOMContentLoaded', () => {
 
     searchBar.addEventListener('input', (e) => {
         const searchTerm = e.target.value.toLowerCase();
-        const filteredGames = allGames.filter(game =>
-            game.name.toLowerCase().includes(searchTerm) ||
-            game.releaseName.toLowerCase().includes(searchTerm)
-        );
-        displayGames(filteredGames);
+        if (searchTerm) {
+            const filteredGames = allGames.filter(game =>
+                game.name.toLowerCase().includes(searchTerm) ||
+                game.releaseName.toLowerCase().includes(searchTerm)
+            );
+            renderGames(filteredGames, true); // Render search results, clearing previous ones
+        } else {
+            // If search is cleared, render the games that were originally displayed
+            renderGames(displayedGames, true);
+        }
     });
 
     modalClose.addEventListener('click', () => {
         modal.style.display = 'none';
     });
 
+    // Get references to the new download elements
+    const downloadUrlContainer = document.getElementById('download-url-container');
+    const downloadUrlInput = document.getElementById('download-url');
+    const copyUrlBtn = document.getElementById('copy-url-btn');
+    const downloadInstructions = document.getElementById('download-instructions');
+    
+    // Handle the download button click
     modalDownloadBtn.addEventListener('click', (e) => {
         const url = e.currentTarget.dataset.url;
         if (url) {
-            window.open(url, '_blank');
+            // Open the URL in a new tab
+            const newTab = window.open(url, '_blank');
+            
+            // If the tab was blocked, show a message
+            if (!newTab || newTab.closed || typeof newTab.closed === 'undefined') {
+                alert('Download link opened. If you don\'t see it, please check your popup blocker settings.');
+            }
+            
+            // Show the download URL and instructions
+            downloadUrlContainer.classList.remove('hidden');
+            downloadUrlInput.value = url;
+            downloadInstructions.classList.remove('hidden');
         }
+    });
+    
+    // Copy URL button functionality
+    copyUrlBtn.addEventListener('click', () => {
+        downloadUrlInput.select();
+        document.execCommand('copy');
+        
+        // Visual feedback that copy worked
+        const originalText = copyUrlBtn.textContent;
+        copyUrlBtn.textContent = 'Copied!';
+        copyUrlBtn.style.backgroundColor = '#4CAF50';
+        
+        setTimeout(() => {
+            copyUrlBtn.textContent = originalText;
+            copyUrlBtn.style.backgroundColor = '';
+        }, 2000);
     });
 
     window.addEventListener('click', (e) => {
         if (e.target === modal) {
             modal.style.display = 'none';
+        }
+    });
+
+    // Infinite Scroll Event Listener
+    window.addEventListener('scroll', () => {
+        // Don't trigger if searching
+        if (searchBar.value) return;
+
+        // Load more when user is 200px from the bottom
+        if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
+            loadMoreGames();
         }
     });
 

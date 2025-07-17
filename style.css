@@ -8,7 +8,7 @@ body {
     line-height: 1.6;
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Full viewport height */
+    min-height: 100vh; /* Full viewport height */
 }
 
 .container {
@@ -56,10 +56,25 @@ nav button {
     transition: background-color 0.2s, color 0.2s;
 }
 
-nav button:hover {
+nav button:hover, a.nav-discord-btn:hover {
     background-color: #007bff;
     border-color: #007bff;
     color: #fff;
+}
+
+/* Style for the new Discord button in the nav */
+a.nav-discord-btn {
+    background: none;
+    border: 1px solid #5865F2; /* Discord brand color */
+    color: #e0e0e0;
+    padding: 8px 16px;
+    margin-left: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    text-decoration: none;
+    font-size: 1em; /* Match button font size */
+    line-height: normal; /* Align text vertically */
 }
 
 /* Page content styling */
@@ -110,21 +125,17 @@ header p {
 
 /* Posts Container */
 main.container {
-    flex-grow: 1; /* Allow main to grow and fill available space */
-    overflow-y: hidden; /* **FIX: Prevent body scroll, we will scroll the container instead** */
-    padding: 20px;
-    display: flex; /* Use flexbox for layout */
+    flex-grow: 1; /* Allow main content to fill available space */
+    display: flex;
     flex-direction: column;
+    padding: 20px;
 }
 
 #posts-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
-    max-height: 75vh; /* Set a maximum height relative to the viewport */
-    overflow-y: auto; /* Enable vertical scrolling when content exceeds the max height */
     flex-grow: 1; /* Allow it to fill the space */
-    padding-right: 10px; /* Add some space for the scrollbar */
 }
 
 /* Game Card Styles */
@@ -261,6 +272,67 @@ main.container {
     padding-top: 15px;
 }
 
+/* Download URL Container */
+#download-url-container {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #1e1e1e;
+    border-radius: 5px;
+    border: 1px solid #333;
+}
+
+.url-box {
+    display: flex;
+    margin-top: 10px;
+}
+
+#download-url {
+    flex-grow: 1;
+    padding: 8px;
+    background-color: #121212;
+    border: 1px solid #444;
+    color: #e0e0e0;
+    border-radius: 4px 0 0 4px;
+    font-family: monospace;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#copy-url-btn {
+    padding: 8px 12px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+}
+
+#copy-url-btn:hover {
+    background-color: #0069d9;
+}
+
+/* Download Instructions */
+#download-instructions {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #1e1e1e;
+    border-radius: 5px;
+    border: 1px solid #333;
+}
+
+#download-instructions h3 {
+    margin-top: 0;
+    color: #e0e0e0;
+}
+
+#download-instructions ol {
+    padding-left: 20px;
+}
+
+#download-instructions li {
+    margin-bottom: 8px;
+}
+
 #modal-download-section h3 {
     margin-bottom: 15px;
 }
@@ -361,8 +433,15 @@ main.container {
         text-align: center; /* Center align header content on mobile */
     }
 
+    header nav {
+        display: flex;
+        flex-wrap: wrap; /* Allow buttons to wrap on small screens */
+        justify-content: center; /* Center buttons when they wrap */
+        gap: 10px;
+    }
+
     .discord-logo-link {
-        position: static; /* **CRITICAL: Remove absolute positioning** */
+        position: static; /* Remove absolute positioning */
         transform: none; /* Reset transform */
         display: block; /* Make it a block element to take its own line */
         margin: 15px auto; /* Add space above and below, and center it */
@@ -374,28 +453,21 @@ main.container {
     }
 
     #posts-container {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, 1fr); /* Two columns on mobile */
         gap: 12px;
+        max-height: none; /* Allow container to grow */
     }
 
-    .card {
-        background-color: #1e1e1e;
-        border-radius: 8px;
+    .post-card {
         padding: 12px;
-        height: 190px; /* **CRITICAL: Fixed height for cards** */
-        display: flex;
-        flex-direction: column;
-        overflow: hidden; /* **CRITICAL: Hide overflowing text** */
+        height: auto; /* Let card height be determined by its content */
     }
 
-    .card h2 {
+    .post-card h3 {
+        white-space: normal; /* Allow title to wrap */
+        overflow: visible;
+        text-overflow: clip;
         font-size: 1em;
-        font-weight: 600;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        margin: 0 0 8px 0;
-        flex-shrink: 0; /* Prevent shrinking */
     }
 
     .card p {

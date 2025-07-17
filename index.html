@@ -14,6 +14,7 @@
             <nav>
                 <button id="nav-games-list">Games List</button>
                 <button id="nav-help">Help</button>
+                <a href="https://discord.gg/j92rPV6FE4" target="_blank" class="nav-discord-btn">Join Discord</a>
             </nav>
         </div>
     </header>
@@ -39,8 +40,7 @@
         <!-- Page 3: Help (Initially Hidden) -->
         <div id="help-page" class="hidden">
             <h2>Need additional help?</h2>
-            <p>Join the Discord below for help and instructions on how to install the games.</p>
-            <a href="https://discord.gg/j92rPV6FE4" target="_blank" class="discord-btn">Join Discord</a>
+            <p>Join the Discord for help and instructions on how to install the games.</p>
         </div>
     </main>
 
@@ -52,6 +52,23 @@
             <div id="modal-details"></div>
             <div id="modal-download-section">
                 <button id="modal-download-btn" class="download-btn">Download Game</button>
+                <div id="download-url-container" class="hidden">
+                    <p><strong>Direct Download URL:</strong></p>
+                    <div class="url-box">
+                        <input type="text" id="download-url" readonly>
+                        <button id="copy-url-btn">Copy</button>
+                    </div>
+                </div>
+                <div id="download-instructions" class="hidden">
+                    <h3>Download Instructions:</h3>
+                    <ol>
+                        <li>Click the Download Game button above</li>
+                        <li>A new tab will open with the VRP download</li>
+                        <li>If you see a folder list, click on the largest .7z or .apk file</li>
+                        <li>Save the file to your computer</li>
+                        <li>Extract the .7z file using 7-Zip or similar software</li>
+                    </ol>
+                </div>
             </div>
         </div>
     </div>
